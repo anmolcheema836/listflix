@@ -67,6 +67,10 @@
             color: var(--accent-color);
         }
 
+        .phone-number {
+            white-space: nowrap;
+        }
+
         /* Buttons */
         .btn {
             display: inline-flex;
@@ -134,8 +138,19 @@
             padding: 0 2rem;
         }
 
+        /* Standardized Spacing */
         .section {
             padding: 8rem 0;
+        }
+        .pt-0 {
+            padding-top: 0 !important;
+        }
+        .pt-small {
+            padding-top: 2rem !important;
+        }
+        .process-section {
+            border-top: 1px solid var(--glass-border); 
+            padding: 6rem 0;
         }
 
         /* Navigation */
@@ -190,7 +205,7 @@
 
         .marquee-content {
             display: flex;
-            animation: scroll 15s linear infinite;
+            animation: scroll 35s linear infinite;
         }
 
         .marquee-content span {
@@ -199,7 +214,7 @@
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Scrolls exactly half the duplicated content to loop perfectly */
+            100% { transform: translateX(-50%); } 
         }
 
         /* Hero Section (Edge-to-Edge with Background Video) */
@@ -753,12 +768,14 @@
         .agencies-content img {
             height: 35px;
             width: auto;
-            filter: grayscale(1) opacity(0.5) brightness(1.5);
+            /* Inverts logos to pure white and lowers opacity to 50% */
+            filter: brightness(0) invert(1) opacity(0.5);
             transition: all 0.4s ease;
         }
         
         .agencies-content img:hover {
-            filter: grayscale(0) opacity(1) brightness(1);
+            /* Full brightness pure white on hover */
+            filter: brightness(0) invert(1) opacity(1);
         }
 
         @keyframes scrollLogos {
@@ -967,6 +984,10 @@
         }
 
         @media (max-width: 768px) {
+            /* Automated consistent section spacing on mobile */
+            .section { padding: 4rem 0; }
+            .process-section { padding: 4rem 0; }
+            
             .nav-links { display: none; }
             .bento-grid, .process-grid, .horizontal-reels-grid, .youtube-grid { grid-template-columns: 1fr; }
             .bento-about { grid-column: 1; }
@@ -981,9 +1002,13 @@
             .footer-bottom { flex-direction: column; gap: 2rem; text-align: center; }
             
             .portfolio-item { scroll-snap-align: center; flex: 0 0 85%; height: 320px; }
-            .contact-grid { padding: 3rem 2rem; }
+            .contact-grid { padding: 3rem 2rem; gap: 2rem; }
             .testimonial-text { font-size: 1.5rem; }
             .trust-section { padding: 4rem 2rem; min-height: 350px; }
+            
+            footer { padding: 4rem 0 2rem; margin-top: 2rem; }
+            .portfolio-section { margin-top: 3rem; }
+            .reels-header { margin-bottom: 2rem; }
         }
     </style>
 </head>
@@ -1016,8 +1041,8 @@
 
     <!-- Centered Hero Section with Video Background (Edge-to-Edge) -->
     <section class="hero reveal active">
-        <!-- Add your background video file here -->
-        <video src=" " autoplay loop muted playsinline class="hero-bg-video"></video>
+        <!-- High-End Background Video linked -->
+        <video src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" autoplay loop muted playsinline class="hero-bg-video"></video>
         <div class="hero-overlay"></div>
         
         <div class="hero-text">
@@ -1034,7 +1059,7 @@
     <!-- Wrap rest of the content back inside standard container -->
     <div class="container">
         <!-- About & Stats Bento Section -->
-        <section id="about" class="bento-grid reveal">
+        <section id="about" class="section bento-grid reveal">
             <div class="bento-item bento-about">
                 <h4 style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: var(--accent-color); margin-bottom: 1rem;">About ListFlix Media</h4>
                 <h2 class="premium-font" style="font-size: 2.5rem; font-style: italic; margin-bottom: 1.5rem;">Our Passion for Real Estate</h2>
@@ -1160,7 +1185,7 @@
         </section>
 
         <!-- New YouTube Video Section -->
-        <section id="youtube-videos" class="section reveal" style="padding-top: 0;">
+        <section id="youtube-videos" class="section pt-0 reveal">
             <div style="text-align: center;">
                 <h2>Cinematic <span class="premium-font" style="color: var(--accent-color); font-style: italic;">Property Tours.</span></h2>
                 <p style="color: rgba(247, 236, 219, 0.6); max-width: 600px; margin: 1rem auto 0; font-weight: 300;">Showcase the lifestyle and flow of your listing in 4K resolution.</p>
@@ -1178,7 +1203,7 @@
         </section>
 
         <!-- Services Section -->
-        <section id="services" class="section reveal" style="padding-top: 0;">
+        <section id="services" class="section pt-0 reveal">
             <h2>One shoot. Every asset your listing needs.</h2>
             <p style="color: rgba(247, 236, 219, 0.6); max-width: 600px; font-weight: 300; margin-top: 1rem;">We show up once and leave you with the full marketing package — no chasing separate vendors.</p>
             
@@ -1270,12 +1295,12 @@
             <div class="retainer-section reveal">
                 <h4 style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin-bottom: 1rem;">Volume Pricing Available</h4>
                 <h2 class="premium-font" style="font-size: 2.5rem; margin-bottom: 1rem;">Call for more info on monthly retainers</h2>
-                <p style="font-size: 2rem; font-weight: 600;"><a href="tel:4036885478">403-688-5478</a></p>
+                <p style="font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 600;" class="phone-number"><a href="tel:4036885478">403-688-5478</a></p>
             </div>
         </section>
 
         <!-- Process Section -->
-        <section class="section reveal" style="border-top: 1px solid var(--glass-border); padding: 6rem 0;">
+        <section class="section reveal process-section">
             <h2 style="text-align: center;">Booking to delivery, in four steps.</h2>
             <p style="text-align: center; color: rgba(247, 236, 219, 0.6); font-weight: 300; margin-top: 1rem;">It's as easy as one, two, three.</p>
             
@@ -1323,25 +1348,25 @@
             <h4 style="text-align: center; color: var(--accent-color); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2.5rem;">Trusted by top agencies</h4>
             <div class="agencies-marquee">
                 <div class="agencies-content">
-                    <!-- Update with your actual placeholder logo PNGs -->
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=GOOGLE" alt="Google">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=META" alt="Meta">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=NETFLIX" alt="Netflix">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=AMAZON" alt="Amazon">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=APPLE" alt="Apple">
+                    <!-- Standard high-res Wikimedia SVG logos -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
                     
                     <!-- Duplicated for seamless loop -->
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=GOOGLE" alt="Google">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=META" alt="Meta">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=NETFLIX" alt="Netflix">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=AMAZON" alt="Amazon">
-                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=APPLE" alt="Apple">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
                 </div>
             </div>
         </div>
 
         <!-- 5-Star Testimonial Slider Section -->
-        <section class="section reveal" style="padding-top: 2rem;">
+        <section class="section pt-small reveal">
             <div class="trust-section">
                 <h4 class="premium-font" style="font-size: 1.5rem; color: var(--accent-color); font-style: italic; margin-bottom: 3rem;">What agents are saying</h4>
                 
@@ -1396,7 +1421,7 @@
                         <p style="margin-bottom: 2rem; font-size: 1.1rem;">CALGARY, AB</p>
                         
                         <h4 style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 0.5rem;">Phone</h4>
-                        <p style="margin-bottom: 2rem; font-size: 1.1rem;"><a href="tel:4036885478">403-688-5478</a></p>
+                        <p class="phone-number" style="margin-bottom: 2rem; font-size: 1.1rem;"><a href="tel:4036885478">403-688-5478</a></p>
                         
                         <h4 style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 0.5rem;">Hours</h4>
                         <p style="font-size: 1.1rem;">By Appointment</p>
@@ -1449,7 +1474,7 @@
                     </ul>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin-bottom: 0.5rem;">CALGARY AB • 403-688-5478</p>
+                    <p class="phone-number" style="margin-bottom: 0.5rem;">CALGARY AB • 403-688-5478</p>
                     <p>&copy; 2026 ListFlix Media - All Rights Reserved.</p>
                 </div>
             </div>

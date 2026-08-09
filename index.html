@@ -168,21 +168,20 @@
             text-transform: uppercase;
         }
 
-        /* Marquee Under Nav */
+        /* Marquee Ticker */
         .marquee-wrapper {
             border-top: 1px solid rgba(62, 166, 169, 0.2);
             border-bottom: 1px solid rgba(62, 166, 169, 0.2);
-            margin-bottom: 4rem;
+            width: 100%;
+            overflow: hidden;
+            background: var(--bg-color);
         }
 
         .marquee {
-            background-color: transparent;
+            display: flex;
             color: var(--accent-color);
             padding: 0.75rem 0;
-            overflow: hidden;
             white-space: nowrap;
-            position: relative;
-            display: flex;
             font-weight: 500;
             letter-spacing: 3px;
             font-size: 0.75rem;
@@ -190,55 +189,81 @@
         }
 
         .marquee-content {
-            display: inline-block;
-            animation: scroll 25s linear infinite;
+            display: flex;
+            animation: scroll 15s linear infinite;
+        }
+
+        .marquee-content span {
+            padding-right: 0.5rem; /* Small space after the bullet */
         }
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            100% { transform: translateX(-50%); } /* Scrolls exactly half the duplicated content to loop perfectly */
         }
 
-        /* Hero Section */
+        /* Hero Section (Edge-to-Edge with Background Video) */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-height: 70vh;
-            padding-top: 2rem;
+            text-align: center;
+            min-height: 85vh;
+            padding: 4rem 2rem;
             position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .hero-bg-video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.3; /* Adjust brightness of video here */
+            pointer-events: none;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(37,32,34,0.3), rgba(37,32,34,0.95));
+            z-index: 2;
         }
 
         .hero-text {
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
         }
 
         .hero-subtitle {
             color: var(--accent-color);
             text-transform: uppercase;
             letter-spacing: 3px;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
-        .hero-subtitle::before {
+        .hero-subtitle::before, .hero-subtitle::after {
             content: '';
             display: block;
-            width: 30px;
+            width: 40px;
             height: 1px;
             background-color: var(--accent-color);
         }
 
         .hero-text p {
             font-size: 1.25rem;
-            color: rgba(247, 236, 219, 0.7);
-            max-width: 500px;
+            color: rgba(247, 236, 219, 0.8);
             margin-bottom: 3rem;
             font-weight: 300;
         }
@@ -247,98 +272,7 @@
             display: flex;
             gap: 2.5rem;
             align-items: center;
-        }
-
-        /* 3 Fanned Hero Cards */
-        .hero-visual {
-            position: relative;
-            height: 600px;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .hero-card {
-            position: absolute;
-            width: 280px;
-            height: 400px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            transition: transform 0.8s var(--awwwards-ease), filter 0.8s var(--awwwards-ease), box-shadow 0.8s var(--awwwards-ease), border-color 0.8s var(--awwwards-ease), z-index 0s 0.8s;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-            transform-origin: center bottom;
-        }
-
-        .hero-card .card-bg {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            transition: transform 1.2s var(--awwwards-ease), filter 0.6s var(--awwwards-ease);
-            filter: brightness(0.65);
-        }
-
-        .hero-card .card-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.8rem;
-            background: linear-gradient(to top, rgba(37,32,34,0.95), transparent);
-            z-index: 2;
-            transform: translateY(10px);
-            opacity: 0.9;
-            transition: all 0.6s var(--awwwards-ease);
-        }
-
-        .card-tag {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-1 { transform: rotate(-12deg) translateX(-100px) translateY(20px); z-index: 1; }
-        .card-2 { transform: rotate(0deg) translateX(0) translateY(0); z-index: 2; }
-        .card-3 { transform: rotate(12deg) translateX(100px) translateY(20px); z-index: 1; }
-
-        .hero-visual:hover .hero-card {
-            filter: blur(4px) brightness(0.5);
-        }
-        
-        .hero-visual:hover .card-1 { transform: rotate(-16deg) translateX(-140px) translateY(30px); }
-        .hero-visual:hover .card-2 { transform: rotate(0deg) translateX(0) translateY(0); }
-        .hero-visual:hover .card-3 { transform: rotate(16deg) translateX(140px) translateY(30px); }
-
-        .hero-visual .hero-card:hover {
-            filter: blur(0) brightness(1);
-            z-index: 10;
-            box-shadow: 0 40px 80px rgba(62, 166, 169, 0.4);
-            border-color: var(--accent-color);
-            transition: transform 0.8s var(--awwwards-ease), filter 0.8s var(--awwwards-ease), box-shadow 0.8s var(--awwwards-ease), border-color 0.8s var(--awwwards-ease), z-index 0s 0s;
-        }
-        
-        .hero-visual .card-1:hover { transform: rotate(-16deg) translateX(-140px) translateY(-10px) scale(1.05); }
-        .hero-visual .card-2:hover { transform: rotate(0deg) translateX(0) translateY(-20px) scale(1.05); }
-        .hero-visual .card-3:hover { transform: rotate(16deg) translateX(140px) translateY(-10px) scale(1.05); }
-
-        .hero-card:hover .card-bg {
-            transform: scale(1.1);
-            filter: brightness(1.1);
-        }
-        
-        .hero-card:hover .card-content {
-            transform: translateY(0);
-            opacity: 1;
         }
 
         /* About & Stats Bento Box */
@@ -461,7 +395,7 @@
             transform: translateY(-5px);
         }
 
-        /* Portfolio Gallery (Drag-to-Scroll Enabled) */
+        /* Portfolio Gallery */
         .portfolio-section {
             margin-top: 5rem;
         }
@@ -508,7 +442,7 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.8s var(--awwwards-ease);
-            pointer-events: none; /* Disables browser native image drag ghosts */
+            pointer-events: none;
         }
 
         .portfolio-item:hover {
@@ -518,6 +452,40 @@
 
         .portfolio-item:hover img {
             transform: scale(1.05);
+        }
+
+        /* YouTube Section */
+        .youtube-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .youtube-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            transition: all 0.6s var(--awwwards-ease);
+        }
+
+        .youtube-wrapper:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--glass-hover);
+        }
+
+        .youtube-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         /* Services Bento Box */
@@ -629,15 +597,8 @@
             transform: translateX(10px);
         }
 
-        .process-step h4 {
-            position: relative;
-            z-index: 3;
-        }
-
-        .process-step p {
-            position: relative;
-            z-index: 3;
-        }
+        .process-step h4 { position: relative; z-index: 3; }
+        .process-step p { position: relative; z-index: 3; }
 
         /* Premium Pricing */
         .pricing-grid {
@@ -768,6 +729,43 @@
             border-radius: 24px;
         }
 
+        /* Agencies Logo Marquee */
+        .agencies-wrapper {
+            margin: 4rem 0 2rem;
+            padding: 2rem 0;
+            overflow: hidden;
+        }
+
+        .agencies-marquee {
+            white-space: nowrap;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .agencies-content {
+            display: inline-flex;
+            gap: 6rem;
+            align-items: center;
+            animation: scrollLogos 25s linear infinite;
+        }
+
+        .agencies-content img {
+            height: 35px;
+            width: auto;
+            filter: grayscale(1) opacity(0.5) brightness(1.5);
+            transition: all 0.4s ease;
+        }
+        
+        .agencies-content img:hover {
+            filter: grayscale(0) opacity(1) brightness(1);
+        }
+
+        @keyframes scrollLogos {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         /* Testimonial & Trust */
         .trust-section {
             text-align: center;
@@ -777,12 +775,47 @@
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .testimonial-slider {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 200px;
+        }
+
+        .testimonial-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s var(--awwwards-ease), transform 0.8s var(--awwwards-ease);
+            pointer-events: none;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .stars {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 1.5rem;
         }
 
         .testimonial-text {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             line-height: 1.4;
-            margin: 2rem 0 3rem;
+            margin: 0 0 2rem;
             color: var(--text-color);
             font-style: italic;
             font-weight: 400;
@@ -925,20 +958,8 @@
             .hero, .services-grid, .pricing-grid, .contact-grid { grid-template-columns: 1fr; }
             .bento-grid { grid-template-columns: 1fr 1fr; }
             .bento-about { grid-column: 1 / 3; grid-row: auto; }
-            .process-grid, .horizontal-reels-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-grid, .horizontal-reels-grid, .youtube-grid { grid-template-columns: repeat(2, 1fr); }
             
-            .hero-visual { height: 500px; margin-top: 3rem; }
-            .card-1 { transform: rotate(-10deg) translateX(-60px) translateY(10px); }
-            .card-3 { transform: rotate(10deg) translateX(60px) translateY(10px); }
-            
-            .hero-visual:hover .card-1 { transform: rotate(-12deg) translateX(-80px) translateY(20px); }
-            .hero-visual:hover .card-2 { transform: rotate(0deg) translateX(0) translateY(0); }
-            .hero-visual:hover .card-3 { transform: rotate(12deg) translateX(80px) translateY(20px); }
-            
-            .hero-visual .card-1:hover { transform: rotate(-12deg) translateX(-80px) translateY(0) scale(1.05); }
-            .hero-visual .card-2:hover { transform: rotate(0deg) translateX(0) translateY(-10px) scale(1.05); }
-            .hero-visual .card-3:hover { transform: rotate(12deg) translateX(80px) translateY(0) scale(1.05); }
-
             .pricing-card.popular { transform: none; }
             .pricing-card.popular:hover { transform: translateY(-10px); }
             
@@ -947,26 +968,22 @@
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .bento-grid, .process-grid, .horizontal-reels-grid { grid-template-columns: 1fr; }
+            .bento-grid, .process-grid, .horizontal-reels-grid, .youtube-grid { grid-template-columns: 1fr; }
             .bento-about { grid-column: 1; }
             h1 { font-size: 2.8rem; }
+            
+            /* Responsive adjustments for the full width hero text on mobile */
+            .hero-text { padding: 0 1rem; }
+            .hero-buttons { flex-direction: column; gap: 1rem; width: 100%; }
+            .hero-buttons .btn { width: 100%; }
+
             .footer-content { flex-direction: column; text-align: center; gap: 3rem; }
             .footer-bottom { flex-direction: column; gap: 2rem; text-align: center; }
             
-            .hero-card { width: 240px; height: 340px; }
-            .card-1 { transform: rotate(-8deg) translateX(-40px) translateY(10px); }
-            .card-3 { transform: rotate(8deg) translateX(40px) translateY(10px); }
-            
-            .hero-visual:hover .card-1 { transform: rotate(-10deg) translateX(-50px) translateY(15px); }
-            .hero-visual:hover .card-2 { transform: rotate(0deg) translateX(0) translateY(0); }
-            .hero-visual:hover .card-3 { transform: rotate(10deg) translateX(50px) translateY(15px); }
-            
-            .hero-visual .card-1:hover { transform: rotate(-10deg) translateX(-50px) translateY(5px) scale(1.05); }
-            .hero-visual .card-2:hover { transform: rotate(0deg) translateX(0) translateY(-5px) scale(1.05); }
-            .hero-visual .card-3:hover { transform: rotate(10deg) translateX(50px) translateY(5px) scale(1.05); }
-
             .portfolio-item { scroll-snap-align: center; flex: 0 0 85%; height: 320px; }
             .contact-grid { padding: 3rem 2rem; }
+            .testimonial-text { font-size: 1.5rem; }
+            .trust-section { padding: 4rem 2rem; min-height: 350px; }
         }
     </style>
 </head>
@@ -983,7 +1000,7 @@
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="https://calendly.com/listflixyyc/media" target="_blank" class="btn btn-primary">BOOK NOW</a>
+            <a href="#pricing" class="btn btn-primary">BOOK NOW</a>
         </nav>
     </div>
 
@@ -991,74 +1008,54 @@
     <div class="marquee-wrapper">
         <div class="marquee">
             <div class="marquee-content">
-                <span>REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull;&nbsp;</span>
-                <span>REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull; REFUSE TO BLEND IN &bull;</span>
+                <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
+                <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <section class="hero reveal active">
-            <div class="hero-text">
-                <span class="hero-subtitle">Calgary Real Estate Media</span>
-                <h1>Professionals in <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">Real Estate Media.</span></h1>
-                <p>MLS Photos, RMS Measurements, iGUIDE Tours. Cinematic Video Tours, Social Media, Virtual Staging.</p>
-                <div class="hero-buttons">
-                    <a href="https://calendly.com/listflixyyc/media" target="_blank" class="btn btn-primary">BOOK A SHOOT</a>
-                    <a href="#work" class="btn btn-outline">VIEW THE WORK</a>
-                </div>
+    <!-- Centered Hero Section with Video Background (Edge-to-Edge) -->
+    <section class="hero reveal active">
+        <!-- Add your background video file here -->
+        <video src="https://pub-9d57d53156e94e2fb5282b7e1b822316.r2.dev/Long%20overdue%20collab%20with%20%40clutchcvm%20%F0%9F%99%82_%E2%86%94%EF%B8%8F.%20%23luxuryhouse%20%23luxurylifestyle.mp4" autoplay loop muted playsinline class="hero-bg-video"></video>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-text">
+            <span class="hero-subtitle">Calgary Real Estate Media</span>
+            <h1>Professionals in <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">Real Estate Media.</span></h1>
+            <p>MLS Photos, RMS Measurements, iGUIDE Tours. Cinematic Video Tours, Social Media, Virtual Staging.</p>
+            <div class="hero-buttons">
+                <a href="#pricing" class="btn btn-primary">BOOK A SHOOT</a>
+                <a href="#work" class="btn btn-outline">VIEW THE WORK</a>
             </div>
-            
-            <!-- Three Fanned Hover Cards -->
-            <div class="hero-visual">
-                <div class="hero-card card-1">
-                    <div class="card-bg" style="background-image: url('https://img1.wsimg.com/isteam/ip/4f538435-be19-4d3b-91ed-e097e2a3e0c1/cover%20(1).jpg/:/rs=w:740,cg:true,m');"></div>
-                    <div class="card-content">
-                        <span class="card-tag">EXTERIOR</span>
-                        <h3 class="premium-font">Showcase</h3>
-                    </div>
-                </div>
-                <div class="hero-card card-2">
-                    <div class="card-bg" style="background-image: url('https://img1.wsimg.com/isteam/ip/4f538435-be19-4d3b-91ed-e097e2a3e0c1/8a.jpeg/:/rs=w:740,cg:true,m');"></div>
-                    <div class="card-content">
-                        <span class="card-tag">INTERIOR</span>
-                        <h3 class="premium-font">Living Space</h3>
-                    </div>
-                </div>
-                <div class="hero-card card-3">
-                    <div class="card-bg" style="background-image: url('https://img1.wsimg.com/isteam/ip/4f538435-be19-4d3b-91ed-e097e2a3e0c1/DJI_20250818094139_0023_D.jpg/:/cr=t:9.68%25,l:27.32%25,w:45.36%25,h:80.65%25/rs=w:740,h:740,cg:true,m');"></div>
-                    <div class="card-content">
-                        <span class="card-tag">DRONE TOUR</span>
-                        <h3 class="premium-font">Aerial View</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
+    <!-- Wrap rest of the content back inside standard container -->
+    <div class="container">
         <!-- About & Stats Bento Section -->
         <section id="about" class="bento-grid reveal">
             <div class="bento-item bento-about">
                 <h4 style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: var(--accent-color); margin-bottom: 1rem;">About ListFlix Media</h4>
                 <h2 class="premium-font" style="font-size: 2.5rem; font-style: italic; margin-bottom: 1.5rem;">Our Passion for Real Estate</h2>
                 <p style="color: rgba(247, 236, 219, 0.7); font-weight: 300; font-size: 1.05rem; line-height: 1.8;">
-                    At ListFlix Media, we help realtors showcase their listings with cinematic storytelling and premium visuals. From professional photos and videos to reels, drone tours, and RMS-ready measurements, we deliver everything you need to market at the highest level. Our focus is simple — create content that grabs attention, builds your brand, and gets homes sold faster.
+                    One year. 1,000+ homes. Every one of them shot to sell, not just to document. ListFlix Media handles the full media package — photography, drone, video, staging, and measurements in a single visit, delivered in 24 hours. If your listing deserves to stand out, this is where it starts.
                 </p>
             </div>
             <div class="bento-item stat-item reveal stagger-1" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <h3>500+</h3>
+                <h3>1000+</h3>
                 <p>Listings Shot</p>
             </div>
             <div class="bento-item stat-item reveal stagger-2" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <h3>48HR</h3>
+                <h3>24HR</h3>
                 <p>Turnaround</p>
             </div>
             <div class="bento-item stat-item reveal stagger-3" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <h3>120+</h3>
+                <h3>80+</h3>
                 <p>Agents Served</p>
             </div>
             <div class="bento-item stat-item reveal stagger-4" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <h3>4.9★</h3>
+                <h3>5.0★</h3>
                 <p>Client Rating</p>
             </div>
         </section>
@@ -1162,8 +1159,26 @@
             </div>
         </section>
 
+        <!-- New YouTube Video Section -->
+        <section id="youtube-videos" class="section reveal" style="padding-top: 0;">
+            <div style="text-align: center;">
+                <h2>Cinematic <span class="premium-font" style="color: var(--accent-color); font-style: italic;">Property Tours.</span></h2>
+                <p style="color: rgba(247, 236, 219, 0.6); max-width: 600px; margin: 1rem auto 0; font-weight: 300;">Showcase the lifestyle and flow of your listing in 4K resolution.</p>
+            </div>
+            
+            <div class="youtube-grid">
+                <!-- Add your YouTube embed code below -->
+                <div class="youtube-wrapper reveal stagger-1">
+                    <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?si=1m5a-0qF5rDkxkUf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="youtube-wrapper reveal stagger-2">
+                    <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?si=1m5a-0qF5rDkxkUf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
         <!-- Services Section -->
-        <section id="services" class="section reveal">
+        <section id="services" class="section reveal" style="padding-top: 0;">
             <h2>One shoot. Every asset your listing needs.</h2>
             <p style="color: rgba(247, 236, 219, 0.6); max-width: 600px; font-weight: 300; margin-top: 1rem;">We show up once and leave you with the full marketing package — no chasing separate vendors.</p>
             
@@ -1201,51 +1216,7 @@
             </div>
         </section>
 
-        <!-- Process Section with Video Integration -->
-        <section class="section reveal" style="border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 6rem 0;">
-            <h2 style="text-align: center;">Booking to delivery, in four steps.</h2>
-            <p style="text-align: center; color: rgba(247, 236, 219, 0.6); font-weight: 300; margin-top: 1rem;">It's as easy as one, two, three.</p>
-            
-            <div class="process-grid">
-                <div class="process-step reveal stagger-1">
-                    <div class="process-video-wrapper">
-                        <video src="reels/1.mp4" autoplay loop muted playsinline></video>
-                    </div>
-                    <span class="service-num pacifico-font">01</span>
-                    <h4>Book Your Shoot</h4>
-                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Schedule online in under a minute.</p>
-                </div>
-                
-                <div class="process-step reveal stagger-2">
-                    <div class="process-video-wrapper">
-                        <video src="reels/2.mp4" autoplay loop muted playsinline></video>
-                    </div>
-                    <span class="service-num pacifico-font">02</span>
-                    <h4>Select Package</h4>
-                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Choose the services your listing needs.</p>
-                </div>
-                
-                <div class="process-step reveal stagger-3">
-                    <div class="process-video-wrapper">
-                        <video src="reels/3.mp4" autoplay loop muted playsinline></video>
-                    </div>
-                    <span class="service-num pacifico-font">03</span>
-                    <h4>Shoot Day</h4>
-                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">We arrive and capture everything on schedule.</p>
-                </div>
-                
-                <div class="process-step reveal stagger-4">
-                    <div class="process-video-wrapper">
-                        <video src="reels/4.mp4" autoplay loop muted playsinline></video>
-                    </div>
-                    <span class="service-num pacifico-font">04</span>
-                    <h4>Media Delivery</h4>
-                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Edited assets delivered within 48 hours.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
+        <!-- Pricing Section Moved Up -->
         <section id="pricing" class="section reveal">
             <div style="text-align: center;">
                 <h2>Pricing, no fine print.</h2>
@@ -1303,12 +1274,113 @@
             </div>
         </section>
 
-        <!-- Fixed Typography Trust Section -->
-        <section class="section reveal">
+        <!-- Process Section -->
+        <section class="section reveal" style="border-top: 1px solid var(--glass-border); padding: 6rem 0;">
+            <h2 style="text-align: center;">Booking to delivery, in four steps.</h2>
+            <p style="text-align: center; color: rgba(247, 236, 219, 0.6); font-weight: 300; margin-top: 1rem;">It's as easy as one, two, three.</p>
+            
+            <div class="process-grid">
+                <div class="process-step reveal stagger-1">
+                    <div class="process-video-wrapper">
+                        <video src="reels/1.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <span class="service-num pacifico-font">01</span>
+                    <h4>Book Your Shoot</h4>
+                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Schedule online in under a minute.</p>
+                </div>
+                
+                <div class="process-step reveal stagger-2">
+                    <div class="process-video-wrapper">
+                        <video src="reels/2.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <span class="service-num pacifico-font">02</span>
+                    <h4>Select Package</h4>
+                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Choose the services your listing needs.</p>
+                </div>
+                
+                <div class="process-step reveal stagger-3">
+                    <div class="process-video-wrapper">
+                        <video src="reels/3.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <span class="service-num pacifico-font">03</span>
+                    <h4>Shoot Day</h4>
+                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">We arrive and capture everything on schedule.</p>
+                </div>
+                
+                <div class="process-step reveal stagger-4">
+                    <div class="process-video-wrapper">
+                        <video src="reels/4.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <span class="service-num pacifico-font">04</span>
+                    <h4>Media Delivery</h4>
+                    <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); font-weight: 300;">Edited assets delivered within 48 hours.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted Agencies Logo Marquee -->
+        <div class="agencies-wrapper reveal">
+            <h4 style="text-align: center; color: var(--accent-color); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2.5rem;">Trusted by top agencies</h4>
+            <div class="agencies-marquee">
+                <div class="agencies-content">
+                    <!-- Update with your actual placeholder logo PNGs -->
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=GOOGLE" alt="Google">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=META" alt="Meta">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=NETFLIX" alt="Netflix">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=AMAZON" alt="Amazon">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=APPLE" alt="Apple">
+                    
+                    <!-- Duplicated for seamless loop -->
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=GOOGLE" alt="Google">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=META" alt="Meta">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=NETFLIX" alt="Netflix">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=AMAZON" alt="Amazon">
+                    <img src="https://via.placeholder.com/200x60/252022/FFFFFF?text=APPLE" alt="Apple">
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-Star Testimonial Slider Section -->
+        <section class="section reveal" style="padding-top: 2rem;">
             <div class="trust-section">
-                <h4 class="premium-font" style="font-size: 1.5rem; color: var(--accent-color); font-style: italic; margin-bottom: 2rem;">Trusted by top agents</h4>
-                <p class="testimonial-text premium-font">"ListFlix didn't just shoot my listing - they made it look like nothing else on the market."</p>
-                <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">TANYA E. <span style="color: var(--accent-color);">—</span> REALTOR, BELTLINE</p>
+                <h4 class="premium-font" style="font-size: 1.5rem; color: var(--accent-color); font-style: italic; margin-bottom: 3rem;">What agents are saying</h4>
+                
+                <div class="testimonial-slider" id="testimonialSlider">
+                    <!-- Slide 1 -->
+                    <div class="testimonial-slide active">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text premium-font">"ListFlix didn't just shoot my listing - they made it look like nothing else on the market."</p>
+                        <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">TANYA E. <span style="color: var(--accent-color);">—</span> REALTOR, BELTLINE</p>
+                    </div>
+                    
+                    <!-- Slide 2 -->
+                    <div class="testimonial-slide">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text premium-font">"The 24-hour turnaround saved my open house. The drone footage was absolutely incredible."</p>
+                        <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">JAMES R. <span style="color: var(--accent-color);">—</span> RE/MAX REALTY</p>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="testimonial-slide">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text premium-font">"My clients were blown away by the cinematic video tour. It brought so much extra traffic to our listing."</p>
+                        <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">SARAH K. <span style="color: var(--accent-color);">—</span> EXP REALTY</p>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="testimonial-slide">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text premium-font">"I refuse to use anyone else now. One visit and they handle literally every single asset I need."</p>
+                        <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">MICHAEL D. <span style="color: var(--accent-color);">—</span> CENTURY 21</p>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="testimonial-slide">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text premium-font">"The virtual staging looked completely hyper-realistic. Helped me sell an empty property in days."</p>
+                        <p style="font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: var(--text-color); font-family: 'Inter', sans-serif;">AMANDA W. <span style="color: var(--accent-color);">—</span> ROYAL LEPAGE</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1361,7 +1433,7 @@
                     <h2>Your next listing deserves to <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">refuse to blend in</span> too.</h2>
                 </div>
                 <div>
-                    <a href="https://calendly.com/listflixyyc/media" target="_blank" class="btn btn-primary">BOOK YOUR SHOOT</a>
+                    <a href="#pricing" class="btn btn-primary">BOOK YOUR SHOOT</a>
                 </div>
             </div>
             
@@ -1382,9 +1454,9 @@
                 </div>
             </div>
         </footer>
-    </div>
+    </div> <!-- End Container Wrap -->
 
-    <!-- Scroll Reveal & Image Track Drag-Scroll Script -->
+    <!-- Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // Intersection Scroll Reveal
@@ -1424,11 +1496,8 @@
                 track.addEventListener('mousedown', (e) => {
                     isDown = true;
                     track.classList.add('is-dragging');
-                    
-                    // Turn off smooth snapping behavior while actively dragging to prevent jitter
                     track.style.scrollSnapType = 'none';
                     track.style.scrollBehavior = 'auto'; 
-                    
                     startX = e.pageX - track.offsetLeft;
                     scrollLeft = track.scrollLeft;
                 });
@@ -1437,8 +1506,6 @@
                     if (!isDown) return;
                     isDown = false;
                     track.classList.remove('is-dragging');
-                    
-                    // Turn smooth snapping back on when released
                     track.style.scrollSnapType = 'x mandatory';
                     track.style.scrollBehavior = 'smooth';
                 };
@@ -1450,12 +1517,21 @@
                     if (!isDown) return;
                     e.preventDefault();
                     const x = e.pageX - track.offsetLeft;
-                    const walk = (x - startX) * 1.5; // Smoother 1.5 multiplier
+                    const walk = (x - startX) * 1.5; 
                     track.scrollLeft = scrollLeft - walk;
                 });
+            }
+
+            // Testimonial Auto Slider
+            const slides = document.querySelectorAll('.testimonial-slide');
+            if(slides.length > 0) {
+                let currentSlide = 0;
                 
-                // Note: The previous 'wheel' event listener has been entirely removed 
-                // so normal page scrolling works without "mouse jacking".
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 5000); // Changes slide every 5 seconds
             }
         });
     </script>

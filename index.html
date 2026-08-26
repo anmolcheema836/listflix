@@ -64,7 +64,7 @@
         .premium-font { font-family: 'Playfair Display', serif; }
 
         h1, h2, h3, h4 { line-height: 1.1; margin-bottom: 1rem; }
-        h1 { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 700; letter-spacing: -1px; perspective: 1000px; }
+        h1 { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 700; letter-spacing: -1px; }
         h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; letter-spacing: -0.5px;}
         
         a { color: var(--text-color); text-decoration: none; transition: color 0.4s var(--awwwards-ease); }
@@ -121,6 +121,18 @@
         .btn-primary:hover { color: var(--accent-color); box-shadow: 0 15px 30px rgba(62, 166, 169, 0.2); }
         .btn-primary:hover::before { transform: scaleX(1); transform-origin: left; }
 
+        /* Hero Specific Button overrides - Keeps solid green background on hover */
+        .btn-hero { display: inline-flex; align-items: center; gap: 0.75rem; }
+        .btn-hero::before { content: none !important; display: none !important; }
+        .btn-hero:hover { background-color: var(--accent-color) !important; color: var(--bg-color) !important; box-shadow: 0 15px 30px rgba(62, 166, 169, 0.2); }
+        
+        .hero-btn-arrow {
+            width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5;
+            stroke-linecap: round; stroke-linejoin: round; transition: transform 0.5s var(--awwwards-ease);
+            transform: rotate(-45deg); flex-shrink: 0; position: relative; z-index: 2;
+        }
+        .btn-hero:hover .hero-btn-arrow { transform: rotate(0deg); }
+
         .btn-outline { background-color: transparent; color: var(--text-color); border: 0; border-bottom: 2px solid var(--text-color); border-radius: 0; padding: 0.5rem 0; }
         .btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); transform: translateY(-2px); }
 
@@ -132,23 +144,11 @@
         .process-section { border-top: 1px solid var(--glass-border); padding: 6rem 0; }
 
        /* Cinematic Transition Overlay */
-        .cinematic-overlay {
-            position: fixed; inset: 0; pointer-events: none; z-index: 99999;
-            overflow: hidden;
-        }
-        .cinematic-layer {
-            position: absolute; inset: 0; display: flex; width: 100%; height: 100%;
-        }
+        .cinematic-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 99999; overflow: hidden; }
+        .cinematic-layer { position: absolute; inset: 0; display: flex; width: 100%; height: 100%; }
         .cinematic-layer.layer-1 .panel { background: var(--accent-color); }
         .cinematic-layer.layer-2 .panel { background: var(--bg-solid); }
-        
-        .panel { 
-            flex: 1; 
-            height: 100%; 
-            transform: scaleY(0); 
-            will-change: transform; 
-            margin-right: -2px; 
-        }
+        .panel { flex: 1; height: 100%; transform: scaleY(0); will-change: transform; margin-right: -2px; }
         .panel:last-child { margin-right: 0; }
 
         /* Navigation Over Video */
@@ -167,21 +167,16 @@
 
         /* Static Hero Video Background */
         .hero { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 100vh; padding: 12rem 2rem 4rem; width: 100%; z-index: 10; overflow: hidden; }
-        
-        .hero-bg-wrapper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
+        .hero-bg-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .hero-bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(37,32,34,0.1), rgba(37,32,34,1)); z-index: 2; }
         
         .hero-text { position: relative; display: flex; flex-direction: column; align-items: center; max-width: 800px; z-index: 10; }
-        
-        .hero-text > * { visibility: hidden; }
+        .hero-text > * { visibility: hidden; } /* Fully hides text & pseudo-lines during 3s delay */
 
         .hero-subtitle { color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
         .hero-subtitle::before, .hero-subtitle::after { content: ''; display: block; width: 40px; height: 1px; background-color: var(--accent-color); }
-        .hero-text p { font-size: 1.25rem; color: rgba(247, 236, 219, 0.8); margin-bottom: 3rem; font-weight: 300; }
+        .hero-desc { font-size: 1.25rem; color: rgba(247, 236, 219, 0.8); margin-bottom: 3rem; font-weight: 300; }
         .hero-buttons { display: flex; gap: 2.5rem; align-items: center; justify-content: center; }
 
         /* About & Stats Bento Box */
@@ -204,88 +199,34 @@
         .view-ig-link { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(247, 236, 219, 0.6); transition: all 0.4s var(--awwwards-ease); }
         .reel-container:hover .view-ig-link { color: var(--accent-color); transform: translateY(-5px); }
 
-        /* Horizontal Videos Showcase Section */
-        .horizontal-showcase { display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem; }
-        .small-videos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .small-video-wrapper { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); background: var(--glass-bg); transition: all 0.6s var(--awwwards-ease); cursor: pointer; }
-        .small-video-wrapper:hover { border-color: var(--accent-color); transform: translateY(-5px); box-shadow: 0 15px 30px var(--glass-hover); }
-        .horizontal-showcase video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--awwwards-ease); }
-        .horizontal-showcase .small-video-wrapper:hover video { transform: scale(1.03); }
-        
-        /* Play Button Overlay */
-        .play-overlay { position: absolute; inset: 0; background: rgba(37,32,34,0.4); display: flex; justify-content: center; align-items: center; transition: opacity 0.4s; z-index: 2; }
+        /* Play Button Overlay (For Cinematic Showcase) */
+        .play-overlay { position: absolute; inset: 0; background: rgba(37,32,34,0.4); display: flex; justify-content: center; align-items: center; transition: opacity 0.4s; z-index: 2; pointer-events: none; }
         .small-video-wrapper:hover .play-overlay { background: rgba(37,32,34,0.2); }
         .small-video-wrapper.is-playing .play-overlay { opacity: 0; pointer-events: none; }
         .play-icon { width: 50px; height: 50px; fill: var(--text-color); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); transition: transform 0.4s; }
         .small-video-wrapper:hover .play-icon { transform: scale(1.1); fill: var(--accent-color); }
 
-        /* SMOOTH EXPANDING GALLERY */
-        .projects-section {
-            width: 100%;
-            margin-top: 2rem;
-            position: relative;
-        }
+        /* SMOOTH EXPANDING GALLERY (Used for both Images and Videos) */
+        .projects-section { width: 100%; margin-top: 2rem; position: relative; }
         .portfolio-header { text-align: center; margin-bottom: 2rem; }
         
-        .projects-grid {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 2vh; 
-            padding: 10vh 0 15vh 0; 
-            overflow: hidden;
-        }
-
-        .project-row {
-            width: 100%;
-            display: flex;
-            justify-content: center; 
-            gap: 12px; 
-        }
-
-        .project {
-            width: 14vw; 
-            height: 18vh; 
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            contain: layout paint;
-            transform: translateZ(0); 
-        }
+        .projects-grid { width: 100%; display: flex; flex-direction: column; gap: 2vh; padding: 10vh 0 15vh 0; overflow: hidden; }
+        .project-row { width: 100%; display: flex; justify-content: center; gap: 12px; }
+        .project { width: 14vw; height: 18vh; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; contain: layout paint; transform: translateZ(0); }
 
         .img-wrapper {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #111;
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-            contain: layout paint;
-            transform: translateZ(0); 
-            transition: border-color 0.4s ease;
+            width: 100%; height: 100%; overflow: hidden; background: #111;
+            border-radius: 16px; border: 1px solid var(--glass-border);
+            contain: layout paint; transform: translateZ(0); transition: border-color 0.4s ease;
+            position: relative; cursor: pointer;
+        }
+        .project:hover .img-wrapper { border-color: var(--accent-color); }
+        .img-wrapper img, .img-wrapper video {
+            width: 100%; height: 100%; object-fit: cover;
+            transform: scale(1.15); will-change: transform; 
         }
 
-        .project:hover .img-wrapper {
-            border-color: var(--accent-color);
-        }
-
-        .img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(1.15); 
-            will-change: transform; 
-        }
-
-        .project-label {
-            font-size: 10px;
-            color: rgba(247, 236, 219, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            white-space: nowrap;
-            text-align: center;
-        }
+        .project-label { font-size: 10px; color: rgba(247, 236, 219, 0.6); text-transform: uppercase; letter-spacing: 0.15em; white-space: nowrap; text-align: center; }
 
         /* Process Steps */
         .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; margin-top: 5rem; }
@@ -319,27 +260,14 @@
 
         .retainer-section { text-align: center; margin-top: 4rem; padding: 3rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; }
 
-        /* Agencies Logo Marquee - EQUAL SPACING FIX */
+        /* Agencies Logo Marquee - EQUAL SPACING */
         .agencies-wrapper { margin: 4rem 0 2rem; padding: 2rem 0; overflow: hidden; }
         .agencies-marquee { display: flex; overflow: hidden; white-space: nowrap; width: 100%; }
         .agencies-content { 
-            display: flex; 
-            gap: 5rem; /* Strict, uniform gap between each logo and group boundary */
-            align-items: center; 
-            width: max-content; 
-            animation: scrollLogos 25s linear infinite; 
-            flex-shrink: 0;
-            padding-right: 5rem; /* Matches gap precisely for seamless transition into group 2 */
+            display: flex; gap: 5rem; align-items: center; width: max-content; 
+            animation: scrollLogos 25s linear infinite; flex-shrink: 0; padding-right: 5rem;
         }
-        .agencies-content img { 
-            height: 40px; 
-            width: auto; 
-            max-width: 150px; 
-            object-fit: contain; 
-            flex-shrink: 0; 
-            filter: brightness(0) invert(1) opacity(0.5); 
-            transition: all 0.4s ease; 
-        }
+        .agencies-content img { height: 40px; width: auto; max-width: 150px; object-fit: contain; flex-shrink: 0; filter: brightness(0) invert(1) opacity(0.5); transition: all 0.4s ease; }
         .agencies-content img:hover { filter: brightness(0) invert(1) opacity(1); }
         @keyframes scrollLogos { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
@@ -381,15 +309,15 @@
             .hero, .pricing-grid, .contact-grid { grid-template-columns: 1fr; }
             .bento-grid { grid-template-columns: 1fr 1fr; }
             .bento-about { grid-column: 1 / 3; grid-row: auto; }
-            .process-grid, .horizontal-reels-grid, .small-videos-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-grid, .horizontal-reels-grid, .project-row { flex-wrap: wrap; }
             .pricing-card.popular { transform: none; }
             .pricing-card.popular:hover { transform: translateY(-10px); }
-            .project { width: 25vw; height: 16vh; }
+            .project { width: 30vw; height: 16vh; }
         }
         @media (max-width: 768px) {
             .section { padding: 4rem 0; } .process-section { padding: 4rem 0; }
             nav { padding: 1rem; } .nav-links { display: none; }
-            .bento-grid, .process-grid, .horizontal-reels-grid, .small-videos-grid { grid-template-columns: 1fr; }
+            .bento-grid, .process-grid, .horizontal-reels-grid { grid-template-columns: 1fr; }
             .bento-about { grid-column: 1; }
             h1 { font-size: 2.8rem; }
             .hero-text { padding: 0 1rem; }
@@ -402,7 +330,7 @@
             .trust-section { padding: 4rem 2rem; min-height: 450px; }
             footer { padding: 4rem 0 2rem; margin-top: 2rem; }
             .reels-header { margin-bottom: 2rem; }
-            .project { width: 35vw; height: 12vh; }
+            .project { width: 42vw; height: 14vh; }
         }
     </style>
 </head>
@@ -425,10 +353,10 @@
             <ul class="nav-links">
                 <li><a href="#about" class="transition-link">About</a></li>
                 <li><a href="#work" class="transition-link">Work</a></li>
-                <li><a href="pricing.html" class="transition-link">Pricing</a></li>
+                <li><a href="#pricing" class="transition-link">Pricing</a></li>
                 <li><a href="#contact" class="transition-link">Contact</a></li>
             </ul>
-            <a href="#pricing" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
+            <a href="https://calendly.com/listflixyyc/listflix-essentials" target="_blank" class="btn btn-primary"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
         </nav>
     </div>
 
@@ -440,11 +368,21 @@
         </div>
         
         <div class="hero-text">
-            <span class="hero-subtitle">Calgary Real Estate Media</span>
+            <span class="hero-subtitle"><span class="text-wrapper">Calgary Real Estate Media</span></span>
+            
             <h1 id="particle-title">Professionals in <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">Real Estate Media.</span></h1>
-            <p>MLS Photos, RMS Measurements, iGUIDE Tours. Cinematic Video Tours, Social Media, Virtual Staging.</p>
+            
+            <p class="hero-desc">MLS Photos, RMS Measurements, iGUIDE Tours. Cinematic Video Tours, Social Media, Virtual Staging.</p>
+            
             <div class="hero-buttons">
-                <a href="pricing.html" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK A SHOOT">BOOK A SHOOT</span></a>
+                <!-- Primary Button with hover arrow update -->
+                <a href="https://calendly.com/listflixyyc/listflix-essentials" target="_blank" class="btn btn-primary btn-hero">
+                    <span class="btn-text" data-text="BOOK A SHOOT">BOOK A SHOOT</span>
+                    <svg class="hero-btn-arrow" viewBox="0 0 24 24">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
                 <a href="#work" class="btn btn-outline transition-link"><span class="btn-text" data-text="VIEW THE WORK">VIEW THE WORK</span></a>
             </div>
         </div>
@@ -490,13 +428,15 @@
             </div>
         </section>
 
-        <!-- Trusted Agencies Logo Marquee - EQUAL SPACING FIX -->
+        <!-- Trusted Agencies Logo Marquee - UPDATED WITH NEW LOGOS -->
         <div class="agencies-wrapper reveal" style="margin-top: 0;">
             <h4 style="text-align: center; color: var(--accent-color); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2.5rem;">Trusted by top agencies</h4>
             <div class="agencies-marquee">
                 <!-- Group 1 -->
                 <div class="agencies-content">
                     <img src="trumanlogo.png" alt="Truman Homes">
+                    <img src="https://images-static.moxiworks.com/static/images/br/C21Canada/nonQuebec/Moxi_Pri_Bravo%20Realty_Gold.png" alt="Century 21 Bravo Realty">
+                    <img src="albertarelogo.png" alt="Partner Agency">
                     <img src="https://s.realtyninja.com/static/media/med/11101_b8d837d5_the-blas-group-low-resolution-logo-color-on-transparent-background.png" alt="Blas Group">
                     <img src="https://sterlingcalgary.com/wp-content/uploads/sterling-logo-2x.png" alt="Sterling Calgary">
                     <img src="topcalgarylogo.png" alt="Partner">
@@ -507,6 +447,8 @@
                 <!-- Group 2 (Exact Duplicate) -->
                 <div class="agencies-content" aria-hidden="true">
                     <img src="trumanlogo.png" alt="Truman Homes">
+                    <img src="https://images-static.moxiworks.com/static/images/br/C21Canada/nonQuebec/Moxi_Pri_Bravo%20Realty_Gold.png" alt="Century 21 Bravo Realty">
+                    <img src="albertarelogo.png" alt="Partner Agency">
                     <img src="https://s.realtyninja.com/static/media/med/11101_b8d837d5_the-blas-group-low-resolution-logo-color-on-transparent-background.png" alt="Blas Group">
                     <img src="https://sterlingcalgary.com/wp-content/uploads/sterling-logo-2x.png" alt="Sterling Calgary">
                     <img src="topcalgarylogo.png" alt="Partner">
@@ -609,59 +551,79 @@
             </section>
         </section>
 
-        <!-- Horizontal Video Showcase -->
+        <!-- Horizontal Video Showcase (Cinematic Showcase) -->
         <section id="horizontal-videos" class="section pt-0 reveal">
             <div class="reels-header">
                 <h2>Cinematic <span class="premium-font" style="color: var(--accent-color); font-style: italic;">Showcases.</span></h2>
                 <p style="color: rgba(247, 236, 219, 0.6); max-width: 600px; margin: 1.5rem auto 0; font-weight: 300;">Long-form horizontal video tours for immersive property flow.</p>
             </div>
             
-            <div class="horizontal-showcase">
-                <!-- 3 Small Videos Grid (Click to play) w/ Distinct Posters -->
-                <div class="small-videos-grid reveal stagger-2">
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+            <div class="projects-section" style="margin-top:0;">
+                <div class="projects-grid">
+                    <!-- 3 Small Videos Grid Row 1 -->
+                    <div class="project-row">
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
                     </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                    
+                    <!-- 3 Small Videos Grid Row 2 -->
+                    <div class="project-row">
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
                     </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                </div>
-                
-                <!-- 3 Small Videos Grid (Click to play) -->
-                <div class="small-videos-grid reveal stagger-3">
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                </div>
-                
-                <!-- 3 Small Videos Grid (Click to play) -->
-                <div class="small-videos-grid reveal stagger-4">
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600585154526-990dced4ea0d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                    </div>
-                    <div class="small-video-wrapper">
-                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                        <video poster="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                    
+                    <!-- 3 Small Videos Grid Row 3 -->
+                    <div class="project-row">
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600585154526-990dced4ea0d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
+                        <article class="project">
+                            <div class="img-wrapper small-video-wrapper">
+                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                                <video poster="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -675,11 +637,11 @@
             </div>
             
             <div class="pricing-grid">
-                <!-- Essentials -->
+                <!-- Essentials Card -->
                 <div class="pricing-card reveal stagger-1">
                     <h3 class="premium-font">Essentials</h3>
                     <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); margin-top: 0.5rem; font-weight: 300;">The standard listing package.</p>
-                    <div class="price premium-font">$275</div>
+                    <div class="price premium-font">$295</div>
                     <ul class="features-list">
                         <li>50 Pictures</li>
                         <li>Drone Pictures</li>
@@ -687,15 +649,15 @@
                         <li>RMS Measurement Report</li>
                         <li>iGUIDE Tour</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
+                    <a href="https://calendly.com/listflixyyc/listflix-essentials" target="_blank" class="btn btn-outline" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
                 
-                <!-- Premium -->
+                <!-- Signature Card (Most Booked) -->
                 <div class="pricing-card popular reveal stagger-2">
                     <div style="position: absolute; top: 0; right: 2rem; background: var(--accent-color); color: var(--bg-color); font-size: 0.65rem; padding: 0.5rem 1rem; font-weight: 700; letter-spacing: 1px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10;">MOST BOOKED</div>
-                    <h3 class="premium-font">Premium</h3>
+                    <h3 class="premium-font">Signature</h3>
                     <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); margin-top: 0.5rem; font-weight: 300;">For listings that deserve a premiere.</p>
-                    <div class="price premium-font">$495</div>
+                    <div class="price premium-font">$595</div>
                     <ul class="features-list">
                         <li>50 Pictures</li>
                         <li>Drone Pictures</li>
@@ -704,19 +666,19 @@
                         <li>iGUIDE Tour</li>
                         <li style="color: var(--text-color); font-weight: 500;">+ 1 Sig Vertical Reel w/ Agent Feature (60s)</li>
                     </ul>
-                    <a href="#contact" class="btn btn-primary transition-link" style="text-align: center; width: 100%;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
+                    <a href="https://calendly.com/listflixyyc/new-meeting" target="_blank" class="btn btn-primary" style="text-align: center; width: 100%;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
 
-                <!-- Full -->
+                <!-- Elite Card -->
                 <div class="pricing-card reveal stagger-3">
-                    <h3 class="premium-font">Full</h3>
+                    <h3 class="premium-font">Elite</h3>
                     <p style="font-size: 0.9rem; color: rgba(247, 236, 219, 0.5); margin-top: 0.5rem; font-weight: 300;">The absolute elite visual spread.</p>
-                    <div class="price premium-font">$795</div>
+                    <div class="price premium-font">$850</div>
                     <ul class="features-list">
-                        <li>Everything in Premium Package</li>
+                        <li>Everything in Signature Package</li>
                         <li style="color: var(--text-color); font-weight: 500;">+ 3-5 Min Horizontal Cinematic Video</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
+                    <a href="https://calendly.com/listflixyyc/listflix-elite-pack" target="_blank" class="btn btn-outline" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
             </div>
 
@@ -885,7 +847,7 @@
                     <ul class="nav-links" style="gap: 2rem; font-size: 0.75rem;">
                         <li><a href="#about" class="transition-link">About</a></li>
                         <li><a href="#work" class="transition-link">Work</a></li>
-                        <li><a href="pricing.html" class="transition-link">Pricing</a></li>
+                        <li><a href="#pricing" class="transition-link">Pricing</a></li>
                         <li><a href="#contact" class="transition-link">Contact</a></li>
                     </ul>
                 </div>
@@ -917,60 +879,55 @@
 
 
             /* =========================================================
-               PARTICLES TO TEXT - HERO ANIMATION
+               IN-PLACE LEFT-TO-RIGHT HERO TEXT ANIMATION (3S DELAY)
+               Targets subtitle, title, and description paragraphs.
             ========================================================= */
-            const heroTitle = document.getElementById("particle-title");
-            if (heroTitle) {
-                let html = heroTitle.innerHTML;
+            const heroElementsToAnimate = document.querySelectorAll("#particle-title, .hero-subtitle .text-wrapper, .hero-desc");
+            
+            heroElementsToAnimate.forEach(el => {
+                let html = el.innerHTML;
                 html = html.replace(/(>|^)([^<]+)(<|$)/g, function(match, p1, p2, p3) {
                     let chars = p2.split('').map(char => {
                         if(char.trim() === '') return '&nbsp;';
-                        return `<span class="char" style="display:inline-block; opacity:0; will-change: transform, opacity, filter;">${char}</span>`;
+                        return `<span class="char" style="display:inline-block; opacity:0; will-change: opacity, filter, transform;">${char}</span>`;
                     }).join('');
                     return p1 + chars + p3;
                 });
-                heroTitle.innerHTML = html;
-            }
+                el.innerHTML = html;
+            });
 
-            const tlHero = gsap.timeline({ delay: 3 });
+           // Exactly 3 second delay on start
+const tlHero = gsap.timeline({ delay: 3 });
 
-            gsap.set(".hero-text > *", { autoAlpha: 1 });
-
-            tlHero.fromTo(".hero-subtitle",
-                { autoAlpha: 0, y: 20 },
-                { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }
-            );
-
-            tlHero.fromTo(".char",
-                {
-                    opacity: 0,
-                    x: () => gsap.utils.random(-150, 150),
-                    y: () => gsap.utils.random(-150, 150),
-                    z: () => gsap.utils.random(-250, 250),
-                    rotation: () => gsap.utils.random(-180, 180),
-                    scale: () => gsap.utils.random(0, 3),
-                    filter: "blur(15px)"
-                },
-                {
-                    opacity: 1,
-                    x: 0,
-                    y: 0,
-                    z: 0,
-                    rotation: 0,
-                    scale: 1,
-                    filter: "blur(0px)",
-                    duration: 1.5,
-                    stagger: 0.03,
-                    ease: "back.out(1.2)"
-                },
-                "-=0.4"
-            );
-
-            tlHero.fromTo([".hero-text p", ".hero-buttons"],
-                { autoAlpha: 0, y: 30 },
-                { autoAlpha: 1, y: 0, duration: 1, stagger: 0.15, ease: "power3.out" },
-                "-=0.5"
-            );
+// Reveal only the specific text elements when 3s delay ends (excludes .hero-buttons)
+tlHero.set(".hero-subtitle, #particle-title, .hero-desc", { autoAlpha: 1 })
+      .fromTo(".hero-subtitle",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: "power2.out" },
+          0
+      )
+      .fromTo(".hero-text .char",
+          {
+              opacity: 0,
+              x: -12,
+              filter: "blur(8px)"
+          },
+          {
+              opacity: 1,
+              x: 0,
+              filter: "blur(0px)",
+              duration: 0.6,
+              stagger: 0.015,
+              ease: "power2.out"
+          },
+          0
+      )
+      // The buttons will now naturally stay hidden until this exact tween begins
+      .fromTo(".hero-buttons",
+          { autoAlpha: 0, y: 25 },
+          { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" },
+          "-=0.3"
+      );
 
             /* =========================================================
                GSAP DUAL-LAYER CINEMATIC CURTAIN WIPE TRANSITION
@@ -1028,13 +985,14 @@
 
             
             /* =========================================================
-               GSAP PORTFOLIO EXPANDING GALLERY MATH
+               GSAP EXPANDING GALLERY MATH
+               Automatically targets both image portfolio and cinematic video sections
             ========================================================= */
-            const rows = document.querySelectorAll(".project-row");
-            if (rows.length > 0) {
-                const rowData = Array.from(rows).map(row => {
+            const portfolioRows = document.querySelectorAll(".project-row");
+            if (portfolioRows.length > 0) {
+                const rowData = Array.from(portfolioRows).map(row => {
                     const cards = Array.from(row.querySelectorAll(".project"));
-                    const images = Array.from(row.querySelectorAll(".img-wrapper img"));
+                    const mediaItems = Array.from(row.querySelectorAll(".img-wrapper img, .img-wrapper video"));
 
                     return {
                         row: row,
@@ -1043,7 +1001,7 @@
                             setWidth: gsap.quickSetter(card, "width", "vw"),
                             setHeight: gsap.quickSetter(card, "height", "vh")
                         })),
-                        imageSetters: images.map(img => gsap.quickSetter(img, "scale"))
+                        imageSetters: mediaItems.map(item => gsap.quickSetter(item, "scale"))
                     };
                 });
 
@@ -1084,13 +1042,12 @@
 
 
             /* =========================================================
-               INDEPENDENT MULTI-VIDEO PLAYBACK (Allows multiple active videos)
+               INDEPENDENT MULTI-VIDEO PLAYBACK
             ========================================================= */
             const gridVideos = document.querySelectorAll('.small-video-wrapper');
             gridVideos.forEach(wrapper => {
                 const video = wrapper.querySelector('video');
                 wrapper.addEventListener('click', () => {
-                    // Removed pause logic for other videos to allow concurrent playback
                     if (video.paused) {
                         video.play();
                         wrapper.classList.add('is-playing');

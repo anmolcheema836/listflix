@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebP Smart Compressor (Target: 500KB)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding-top: 40px; color: #333; }
+        .box { background: white; padding: 30px; width: 550px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        h1 { text-align: center; margin-top: 0; color: #1a1a1a; }
+        .info { background: #e3f2fd; color: #0277bd; padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+        input[type="file"] { width: 100%; margin: 10px 0 20px 0; padding: 10px; border: 2px dashed #90caf9; border-radius: 8px; background: #fafafa; cursor: pointer; box-sizing: border-box; }
+        .setting { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; }
+        input[type="number"] { width: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; text-align: center; }
+        button { width: 100%; padding: 15px; background: #000; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background 0.2s; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .progress-container { display: none; margin-top: 25px; }
+        .progress-bar { width: 100%; background: #e0e0e0; border-radius: 8px; height: 22px; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; width: 0%; background: #4caf50; transition: width 0.2s; }
+        .progress-text { position: absolute; top: 0; left: 0; width: 100%; text-align: center; color: #000; font-size: 12px; line-height: 22px; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+        
+        #log { margin-top: 15px; max-height: 150px; overflow-y: auto; background: #222; color: #0f0; font-family: monospace; font-size: 12px; padding: 10px; border-radius: 6px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>WebP Auto-Compressor</h1>
+    
+    <div class="info">
+        <b>How it works:</b><br>
+        1. Skips files already under your target size.<br>
+        2. If a file is too big, it smartly reduces quality/size until it fits.<br>
+        3. Built-in "Anti-Freeze" keeps your browser running smoothly.
+    </div>
+
+    <input type="file" id="images" multiple webkitdirectory directory accept="image/webp">
+
+    <div class="setting">
+        <label style="font-weight: bold;">Max File Size (KB):</label>
+        <div>
+            <input type="number" id="maxKB" value="500" min="50" max="5000"> KB
+        </div>
+    </div>
+
+    <button id="convertBtn">Start Compression</button>
+
+    <!-- UI Elements -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-text" id="statusText">0%</div>
+        </div>
+        <div id="log"></div>
+    </div>
+</div>
+
+<script>
+    const imageInput = document.getElementById('images');
+    const maxKBInput = document.getElementById('maxKB');
+    const convertBtn = document.getElementById('convertBtn');
+    
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill = document.getElementById('progressFill');
+    const statusText = document.getElementById('statusText');
+    const logBox = document.getElementById('log');
+
+    let validFiles = [];
+
+    // 1. Handle Selection
+    imageInput.addEventListener('change', function () {
+        validFiles = [];
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'webp') { // Only process WebP
+                validFiles.push(file);
+            }
+        }
+        statusText.textContent = `${validFiles.length} WebP files loaded`;
+        progressContainer.style.display = 'block';
+        progressFill.style.width = '0%';
+        logBox.style.display = 'none';
+        logBox.innerHTML = '';
+    });
+
+    // Helper: Add text to log
+    function logMsg(msg) {
+        logBox.innerHTML = `<div>${msg}</div>` + logBox.innerHTML;
+    }
+
+    // Helper: Anti-freeze delay (yields CPU to browser)
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // 2. Start Compression
+    convertBtn.addEventListener('click', async function () {
+        if (validFiles.length === 0) {
+            alert('Please select a folder containing WebP images first.');
+            return;
+        }
+
+        convertBtn.disabled = true;
+        imageInput.disabled = true;
+        logBox.style.display = 'block';
+        logBox.innerHTML = '';
+        
+        const zip = new JSZip();
+        const maxBytes = parseInt(maxKBInput.value) * 1024;
+        
+        let originalTotalSize = 0;
+        let newTotalSize = 0;
+
+        // 3. Process Loop
+        for (let i = 0; i < validFiles.length; i++) {
+            const file = validFiles[i];
+            originalTotalSize += file.size;
+            
+            // Update UI
+            const percent = Math.round(((i + 1) / validFiles.length) * 100);
+            progressFill.style.width = `${percent}%`;
+            statusText.textContent = `Processing: ${i + 1} / ${validFiles.length} (${percent}%)`;
+            
+            // Allow browser to render UI before doing heavy math!
+            await sleep(15); 
+
+            try {
+                let finalBlob = file; // Default to original file
+
+                if (file.size <= maxBytes) {
+                    logMsg(`Skipped: ${file.name} (Already ${(file.size/1024).toFixed(0)}KB)`);
+                } else {
+                    // File is too big, start smart compression
+                    logMsg(`Compressing: ${file.name} (Original: ${(file.size/1024).toFixed(0)}KB)`);
+                    finalBlob = await compressToTarget(file, maxBytes);
+                    logMsg(`&nbsp;&nbsp;↳ Success! Reduced to ${(finalBlob.size/1024).toFixed(0)}KB`);
+                }
+
+                newTotalSize += finalBlob.size;
+                
+                // Add to ZIP (keep folders intact)
+                const originalPath = file.webkitRelativePath || file.name;
+                zip.file(originalPath, finalBlob);
+
+            } catch (err) {
+                console.error(`Failed to process ${file.name}:`, err);
+                logMsg(`&nbsp;&nbsp;↳ ERROR processing ${file.name}`);
+                // Add the original file so it's not lost
+                zip.file(file.webkitRelativePath || file.name, file);
+                newTotalSize += file.size;
+            }
+        }
+
+        // 4. Zip and Download
+        progressFill.style.background = '#2196F3'; 
+        statusText.textContent = 'Zipping files... Please wait';
+        logMsg('Generating ZIP file...');
+        
+        await sleep(50); // One last breather before zipping
+
+        const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+
+        const origMB = (originalTotalSize / 1024 / 1024).toFixed(2);
+        const newMB = (newTotalSize / 1024 / 1024).toFixed(2);
+        
+        statusText.textContent = 'Download Starting!';
+        logMsg(`<b>DONE!</b> Original: ${origMB}MB | New: ${newMB}MB`);
+
+        // Download trigger
+        const downloadUrl = URL.createObjectURL(zipBlob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `compressed-webp-${Date.now()}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
+
+        convertBtn.disabled = false;
+        imageInput.disabled = false;
+    });
+
+    // --------------------------------------------------------
+    // SMART COMPRESSION LOGIC
+    // --------------------------------------------------------
+    async function compressToTarget(file, targetBytes) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(file);
+
+            img.onload = async function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                let bestBlob = null;
+                
+                // We will try up to 4 different compression settings
+                const attempts = [
+                    { quality: 0.80, scale: 0.90 }, // Try slightly lower quality, 10% smaller
+                    { quality: 0.70, scale: 0.75 }, // Harder quality drop, 25% smaller
+                    { quality: 0.60, scale: 0.60 }, // Aggressive
+                    { quality: 0.40, scale: 0.40 }  // Extreme (last resort)
+                ];
+
+                for (let i = 0; i < attempts.length; i++) {
+                    let w = Math.round(img.width * attempts[i].scale);
+                    let h = Math.round(img.height * attempts[i].scale);
+                    
+                    canvas.width = w;
+                    canvas.height = h;
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    const blob = await new Promise(res => canvas.toBlob(res, 'image/webp', attempts[i].quality));
+                    bestBlob = blob; // Keep track of the last result
+
+                    if (blob.size <= targetBytes) {
+                        break; // We hit the target! Stop trying.
+                    }
+                }
+
+                URL.revokeObjectURL(objectUrl);
+                resolve(bestBlob || file);
+            };
+
+            img.onerror = function (err) {
+                URL.revokeObjectURL(objectUrl);
+                reject(err);
+            };
+
+            img.src = objectUrl;
+        });
+    }
+</script>
+</body>
+</html>

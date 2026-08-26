@@ -64,14 +64,14 @@
         .premium-font { font-family: 'Playfair Display', serif; }
 
         h1, h2, h3, h4 { line-height: 1.1; margin-bottom: 1rem; }
-        h1 { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 700; letter-spacing: -1px; }
+        h1 { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 700; letter-spacing: -1px; perspective: 1000px; }
         h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; letter-spacing: -0.5px;}
         
         a { color: var(--text-color); text-decoration: none; transition: color 0.4s var(--awwwards-ease); }
         a:hover { color: var(--accent-color); }
         .phone-number { white-space: nowrap; }
 
-        /* Buttons */
+        /* Buttons & Text Animation */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -88,6 +88,30 @@
             overflow: hidden;
             z-index: 1;
         }
+
+        .btn-text {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.5s var(--awwwards-ease);
+            will-change: transform;
+        }
+
+        .btn-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 250%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover .btn-text {
+            transform: translateY(-250%);
+        }
+
         .btn-primary { background-color: var(--accent-color); color: var(--bg-color); border: 2px solid var(--accent-color); }
         .btn-primary::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -118,7 +142,6 @@
         .cinematic-layer.layer-1 .panel { background: var(--accent-color); }
         .cinematic-layer.layer-2 .panel { background: var(--bg-solid); }
         
-        /* margin-right: -2px overlaps the panels slightly to hide flexbox sub-pixel gaps */
         .panel { 
             flex: 1; 
             height: 100%; 
@@ -136,7 +159,7 @@
         .nav-links { display: flex; gap: 2.5rem; list-style: none; font-weight: 500; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; }
 
         /* Transparent Marquee */
-        .marquee-wrapper { border-bottom: 1px solid rgba(62, 166, 169, 0.2); width: 100%; overflow: hidden; background: rgba(37, 32, 34, 0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .marquee-wrapper { border-top: 1px solid rgba(62, 166, 169, 0.2); border-bottom: 1px solid rgba(62, 166, 169, 0.2); width: 100%; overflow: hidden; background: var(--bg-solid); }
         .marquee { display: flex; color: var(--accent-color); padding: 0.75rem 0; white-space: nowrap; font-weight: 500; letter-spacing: 3px; font-size: 0.75rem; text-transform: uppercase; }
         .marquee-content { display: flex; animation: scroll 35s linear infinite; }
         .marquee-content span { padding-right: 0.5rem; }
@@ -153,6 +176,9 @@
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(37,32,34,0.1), rgba(37,32,34,1)); z-index: 2; }
         
         .hero-text { position: relative; display: flex; flex-direction: column; align-items: center; max-width: 800px; z-index: 10; }
+        
+        .hero-text > * { visibility: hidden; }
+
         .hero-subtitle { color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
         .hero-subtitle::before, .hero-subtitle::after { content: ''; display: block; width: 40px; height: 1px; background-color: var(--accent-color); }
         .hero-text p { font-size: 1.25rem; color: rgba(247, 236, 219, 0.8); margin-bottom: 3rem; font-weight: 300; }
@@ -180,13 +206,11 @@
 
         /* Horizontal Videos Showcase Section */
         .horizontal-showcase { display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem; }
-        .big-video-wrapper { width: 100%; aspect-ratio: 16 / 7; border-radius: 24px; overflow: hidden; border: 1px solid var(--glass-border); background: var(--glass-bg); transition: all 0.6s var(--awwwards-ease); }
-        .big-video-wrapper:hover { border-color: var(--accent-color); transform: translateY(-5px); box-shadow: 0 20px 40px var(--glass-hover); }
         .small-videos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .small-video-wrapper { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); background: var(--glass-bg); transition: all 0.6s var(--awwwards-ease); cursor: pointer; }
         .small-video-wrapper:hover { border-color: var(--accent-color); transform: translateY(-5px); box-shadow: 0 15px 30px var(--glass-hover); }
         .horizontal-showcase video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--awwwards-ease); }
-        .horizontal-showcase .big-video-wrapper:hover video, .horizontal-showcase .small-video-wrapper:hover video { transform: scale(1.03); }
+        .horizontal-showcase .small-video-wrapper:hover video { transform: scale(1.03); }
         
         /* Play Button Overlay */
         .play-overlay { position: absolute; inset: 0; background: rgba(37,32,34,0.4); display: flex; justify-content: center; align-items: center; transition: opacity 0.4s; z-index: 2; }
@@ -295,13 +319,29 @@
 
         .retainer-section { text-align: center; margin-top: 4rem; padding: 3rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; }
 
-        /* Agencies Logo Marquee */
+        /* Agencies Logo Marquee - EQUAL SPACING FIX */
         .agencies-wrapper { margin: 4rem 0 2rem; padding: 2rem 0; overflow: hidden; }
-        .agencies-marquee { white-space: nowrap; position: relative; display: flex; align-items: center; }
-        .agencies-content { display: inline-flex; gap: 6rem; align-items: center; animation: scrollLogos 25s linear infinite; }
-        .agencies-content img { height: 40px; width: auto; max-width: 150px; object-fit: contain; filter: brightness(0) invert(1) opacity(0.5); transition: all 0.4s ease; }
+        .agencies-marquee { display: flex; overflow: hidden; white-space: nowrap; width: 100%; }
+        .agencies-content { 
+            display: flex; 
+            gap: 5rem; /* Strict, uniform gap between each logo and group boundary */
+            align-items: center; 
+            width: max-content; 
+            animation: scrollLogos 25s linear infinite; 
+            flex-shrink: 0;
+            padding-right: 5rem; /* Matches gap precisely for seamless transition into group 2 */
+        }
+        .agencies-content img { 
+            height: 40px; 
+            width: auto; 
+            max-width: 150px; 
+            object-fit: contain; 
+            flex-shrink: 0; 
+            filter: brightness(0) invert(1) opacity(0.5); 
+            transition: all 0.4s ease; 
+        }
         .agencies-content img:hover { filter: brightness(0) invert(1) opacity(1); }
-        @keyframes scrollLogos { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scrollLogos { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
         /* Testimonial & Trust */
         .trust-section { text-align: center; background: var(--glass-bg); padding: 6rem 4rem; border-radius: 32px; border: 1px solid var(--glass-border); position: relative; overflow: hidden; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
@@ -362,7 +402,6 @@
             .trust-section { padding: 4rem 2rem; min-height: 450px; }
             footer { padding: 4rem 0 2rem; margin-top: 2rem; }
             .reels-header { margin-bottom: 2rem; }
-            .big-video-wrapper { aspect-ratio: 16 / 9; }
             .project { width: 35vw; height: 12vh; }
         }
     </style>
@@ -389,18 +428,8 @@
                 <li><a href="pricing.html" class="transition-link">Pricing</a></li>
                 <li><a href="#contact" class="transition-link">Contact</a></li>
             </ul>
-            <!-- CHANGED TO #pricing TO SCROLL DOWN SAME PAGE -->
-            <a href="#pricing" class="btn btn-primary transition-link">BOOK NOW</a>
+            <a href="#pricing" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
         </nav>
-
-        <div class="marquee-wrapper">
-            <div class="marquee">
-                <div class="marquee-content">
-                    <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
-                    <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Static Hero Section -->
@@ -412,15 +441,24 @@
         
         <div class="hero-text">
             <span class="hero-subtitle">Calgary Real Estate Media</span>
-            <h1>Professionals in <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">Real Estate Media.</span></h1>
+            <h1 id="particle-title">Professionals in <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">Real Estate Media.</span></h1>
             <p>MLS Photos, RMS Measurements, iGUIDE Tours. Cinematic Video Tours, Social Media, Virtual Staging.</p>
             <div class="hero-buttons">
-                <!-- KEPT AS pricing.html TO REDIRECT TO PRICING PAGE -->
-                <a href="pricing.html" class="btn btn-primary transition-link">BOOK A SHOOT</a>
-                <a href="#work" class="btn btn-outline transition-link">VIEW THE WORK</a>
+                <a href="pricing.html" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK A SHOOT">BOOK A SHOOT</span></a>
+                <a href="#work" class="btn btn-outline transition-link"><span class="btn-text" data-text="VIEW THE WORK">VIEW THE WORK</span></a>
             </div>
         </div>
     </section>
+
+    <!-- Transparent Marquee Re-positioned -->
+    <div class="marquee-wrapper">
+        <div class="marquee">
+            <div class="marquee-content">
+                <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
+                <span>SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull; SHOOT LIST SOLD &bull;&nbsp;</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content Container Wrapper -->
     <div class="container">
@@ -452,25 +490,29 @@
             </div>
         </section>
 
-        <!-- Trusted Agencies Logo Marquee -->
+        <!-- Trusted Agencies Logo Marquee - EQUAL SPACING FIX -->
         <div class="agencies-wrapper reveal" style="margin-top: 0;">
             <h4 style="text-align: center; color: var(--accent-color); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2.5rem;">Trusted by top agencies</h4>
             <div class="agencies-marquee">
+                <!-- Group 1 -->
                 <div class="agencies-content">
-                    <img src="https://trumanhomes.com/wp-content/uploads/2019/08/truman_logo_2019.png" alt="Truman Homes">
+                    <img src="trumanlogo.png" alt="Truman Homes">
                     <img src="https://s.realtyninja.com/static/media/med/11101_b8d837d5_the-blas-group-low-resolution-logo-color-on-transparent-background.png" alt="Blas Group">
                     <img src="https://sterlingcalgary.com/wp-content/uploads/sterling-logo-2x.png" alt="Sterling Calgary">
-                    <img src="https://cdn.lofty.com/image/fs/844770182725830/website/148379/cmsbuild/h200_2025927_dc0e6e201d65427b-png.webp" alt="Partner">
+                    <img src="topcalgarylogo.png" alt="Partner">
                     <img src="https://cdn.prod.website-files.com/69e32647a9316c0944264577/69f38bba5f9a26f6b36e070d_4070f7b8a758bd604c3df9ff514e14af_sage%20hill%20logo.png" alt="Sage Hill">
                     <img src="https://cdn.prod.website-files.com/6849c1099413a0d1181ba070/684aa7c99572cadb23662761_img%20(1).webp" alt="Partner">
                     <img src="https://cdn.lofty.com/image/fs/508869918698733/website/147854/cmsbuild/h200_2025920_bc5ff30b8e6f4438-png.webp" alt="Partner">
-                    
-                    <!-- Duplicates for seamless loop -->
-                    <img src="https://trumanhomes.com/wp-content/uploads/2019/08/truman_logo_2019.png" alt="Truman Homes">
+                </div>
+                <!-- Group 2 (Exact Duplicate) -->
+                <div class="agencies-content" aria-hidden="true">
+                    <img src="trumanlogo.png" alt="Truman Homes">
                     <img src="https://s.realtyninja.com/static/media/med/11101_b8d837d5_the-blas-group-low-resolution-logo-color-on-transparent-background.png" alt="Blas Group">
                     <img src="https://sterlingcalgary.com/wp-content/uploads/sterling-logo-2x.png" alt="Sterling Calgary">
-                    <img src="https://cdn.lofty.com/image/fs/844770182725830/website/148379/cmsbuild/h200_2025927_dc0e6e201d65427b-png.webp" alt="Partner">
+                    <img src="topcalgarylogo.png" alt="Partner">
                     <img src="https://cdn.prod.website-files.com/69e32647a9316c0944264577/69f38bba5f9a26f6b36e070d_4070f7b8a758bd604c3df9ff514e14af_sage%20hill%20logo.png" alt="Sage Hill">
+                    <img src="https://cdn.prod.website-files.com/6849c1099413a0d1181ba070/684aa7c99572cadb23662761_img%20(1).webp" alt="Partner">
+                    <img src="https://cdn.lofty.com/image/fs/508869918698733/website/147854/cmsbuild/h200_2025920_bc5ff30b8e6f4438-png.webp" alt="Partner">
                 </div>
             </div>
         </div>
@@ -575,11 +617,6 @@
             </div>
             
             <div class="horizontal-showcase">
-                <!-- 1 Big Main Video (Autoplays) -->
-                <div class="big-video-wrapper reveal stagger-1">
-                    <video src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" autoplay loop muted playsinline></video>
-                </div>
-                
                 <!-- 3 Small Videos Grid (Click to play) w/ Distinct Posters -->
                 <div class="small-videos-grid reveal stagger-2">
                     <div class="small-video-wrapper">
@@ -650,7 +687,7 @@
                         <li>RMS Measurement Report</li>
                         <li>iGUIDE Tour</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;">BOOK NOW</a>
+                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
                 
                 <!-- Premium -->
@@ -667,7 +704,7 @@
                         <li>iGUIDE Tour</li>
                         <li style="color: var(--text-color); font-weight: 500;">+ 1 Sig Vertical Reel w/ Agent Feature (60s)</li>
                     </ul>
-                    <a href="#contact" class="btn btn-primary transition-link" style="text-align: center; width: 100%;">BOOK NOW</a>
+                    <a href="#contact" class="btn btn-primary transition-link" style="text-align: center; width: 100%;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
 
                 <!-- Full -->
@@ -679,7 +716,7 @@
                         <li>Everything in Premium Package</li>
                         <li style="color: var(--text-color); font-weight: 500;">+ 3-5 Min Horizontal Cinematic Video</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;">BOOK NOW</a>
+                    <a href="#contact" class="btn btn-outline transition-link" style="text-align: center; width: 100%; border: 1px solid rgba(247, 236, 219, 0.2); border-radius: 4px;"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
                 </div>
             </div>
 
@@ -825,7 +862,7 @@
                         <input type="text" class="form-input" placeholder="Name" required>
                         <input type="email" class="form-input" placeholder="Email*" required>
                         <textarea class="form-input" placeholder="Message" rows="5" style="resize: vertical;"></textarea>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem; width: fit-content; padding: 1.25rem 3rem;">SEND MESSAGE</button>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem; width: fit-content; padding: 1.25rem 3rem;"><span class="btn-text" data-text="SEND MESSAGE">SEND MESSAGE</span></button>
                     </form>
                 </div>
             </div>
@@ -838,7 +875,7 @@
                     <h2>Your next listing deserves to <br><span class="premium-font" style="color: var(--accent-color); font-style: italic;">refuse to blend in</span> too.</h2>
                 </div>
                 <div>
-                    <a href="#pricing" class="btn btn-primary transition-link">BOOK YOUR SHOOT</a>
+                    <a href="#pricing" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK YOUR SHOOT">BOOK YOUR SHOOT</span></a>
                 </div>
             </div>
             
@@ -880,8 +917,63 @@
 
 
             /* =========================================================
+               PARTICLES TO TEXT - HERO ANIMATION
+            ========================================================= */
+            const heroTitle = document.getElementById("particle-title");
+            if (heroTitle) {
+                let html = heroTitle.innerHTML;
+                html = html.replace(/(>|^)([^<]+)(<|$)/g, function(match, p1, p2, p3) {
+                    let chars = p2.split('').map(char => {
+                        if(char.trim() === '') return '&nbsp;';
+                        return `<span class="char" style="display:inline-block; opacity:0; will-change: transform, opacity, filter;">${char}</span>`;
+                    }).join('');
+                    return p1 + chars + p3;
+                });
+                heroTitle.innerHTML = html;
+            }
+
+            const tlHero = gsap.timeline({ delay: 1 });
+
+            gsap.set(".hero-text > *", { autoAlpha: 1 });
+
+            tlHero.fromTo(".hero-subtitle",
+                { autoAlpha: 0, y: 20 },
+                { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }
+            );
+
+            tlHero.fromTo(".char",
+                {
+                    opacity: 0,
+                    x: () => gsap.utils.random(-150, 150),
+                    y: () => gsap.utils.random(-150, 150),
+                    z: () => gsap.utils.random(-250, 250),
+                    rotation: () => gsap.utils.random(-180, 180),
+                    scale: () => gsap.utils.random(0, 3),
+                    filter: "blur(15px)"
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                    rotation: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 1.5,
+                    stagger: 0.03,
+                    ease: "back.out(1.2)"
+                },
+                "-=0.4"
+            );
+
+            tlHero.fromTo([".hero-text p", ".hero-buttons"],
+                { autoAlpha: 0, y: 30 },
+                { autoAlpha: 1, y: 0, duration: 1, stagger: 0.15, ease: "power3.out" },
+                "-=0.5"
+            );
+
+            /* =========================================================
                GSAP DUAL-LAYER CINEMATIC CURTAIN WIPE TRANSITION
-               (Supports both same-page anchor scrolling & page redirects)
             ========================================================= */
             const overlay = document.querySelector('.cinematic-overlay');
             const layer1Panels = document.querySelectorAll('.layer-1 .panel');
@@ -896,7 +988,6 @@
                     gsap.set([layer1Panels, layer2Panels], { transformOrigin: 'top' });
 
                     if (href.startsWith('#')) {
-                        // Same-page smooth scroll anchor
                         const target = document.querySelector(href);
                         if (!target) return;
                         
@@ -923,7 +1014,6 @@
                           .to(layer2Panels, { scaleY: 1, duration: 0.6, stagger: 0.05, ease: 'power3.inOut' }, 0.15);
 
                     } else {
-                        // External page redirect (e.g. pricing.html) with curtain transition
                         const tl = gsap.timeline({
                             onComplete: () => {
                                 window.location.href = href;
@@ -994,20 +1084,13 @@
 
 
             /* =========================================================
-               CLICK TO PLAY FOR GRID VIDEOS
+               INDEPENDENT MULTI-VIDEO PLAYBACK (Allows multiple active videos)
             ========================================================= */
             const gridVideos = document.querySelectorAll('.small-video-wrapper');
             gridVideos.forEach(wrapper => {
                 const video = wrapper.querySelector('video');
                 wrapper.addEventListener('click', () => {
-                    gridVideos.forEach(other => {
-                        if (other !== wrapper) {
-                            other.classList.remove('is-playing');
-                            other.querySelector('video').pause();
-                            other.querySelector('video').removeAttribute('controls');
-                        }
-                    });
-
+                    // Removed pause logic for other videos to allow concurrent playback
                     if (video.paused) {
                         video.play();
                         wrapper.classList.add('is-playing');

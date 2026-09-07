@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
     
     <!-- GSAP for Animations -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
@@ -219,7 +219,7 @@
         .reel-container:hover .view-ig-link { color: var(--accent-color); opacity: 1; transform: translateY(-5px); }
 
         /* Play Button Overlay (For Cinematic Showcase) */
-        .play-overlay { position: absolute; inset: 0; background: rgba(37,32,34,0.4); display: flex; justify-content: center; align-items: center; transition: opacity 0.4s; z-index: 2; pointer-events: none; }
+        .play-overlay { position: absolute; inset: 0; background: rgba(37,32,34,0.4); display: flex; justify-content: center; align-items: center; transition: opacity 0.4s; z-index: 2; pointer-events: none; border-radius: inherit; }
         .small-video-wrapper:hover .play-overlay { background: rgba(37,32,34,0.2); }
         .small-video-wrapper.is-playing .play-overlay { opacity: 0; pointer-events: none; }
         .play-icon { width: 50px; height: 50px; fill: #F7ECDB; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); transition: transform 0.4s; }
@@ -231,7 +231,7 @@
         
         .projects-grid { width: 100%; display: flex; flex-direction: column; gap: 2vh; padding: 10vh 0 15vh 0; overflow: hidden; }
         .project-row { width: 100%; display: flex; justify-content: center; gap: 2vw; flex-wrap: nowrap !important; }
-        .project { width: 14vw; height: 18vh; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; contain: layout paint; transform: translateZ(0); }
+        .project { width: 35vw; aspect-ratio: 3/2; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; contain: layout paint; transform: translateZ(0); }
 
         .img-wrapper {
             width: 100%; height: 100%; overflow: hidden; background: #111;
@@ -270,8 +270,8 @@
         .pricing-card:hover::before { opacity: 1; }
         .pricing-card.popular { transform: scale(1.05); box-shadow: inset 0 0 0 1px rgba(62, 166, 169, 0.4); }
         .pricing-card.popular:hover { transform: scale(1.05) translateY(-10px); border-color: var(--accent-color); }
-        .pricing-card h3 { font-size: 2rem; font-weight: 400; }
-        .price { font-size: 4.5rem; color: var(--accent-color); margin: 1.5rem 0 2.5rem; font-weight: 400; font-style: italic; line-height: 1; }
+        .pricing-card h3 { font-size: 2.3rem; font-weight: 700; }
+        .price { font-size: 4.5rem; color: var(--accent-color); margin: 1.5rem 0 2.5rem; font-weight: 700; font-style: normal; line-height: 1; font-family: 'Inter', serif; }
         .features-list { list-style: none; margin: 0 0 3rem 0; flex-grow: 1; }
         .features-list li { margin-bottom: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; color: var(--text-color); opacity: 0.7; font-size: 0.95rem; font-weight: 300; line-height: 1.4; text-transform: uppercase; }
         .features-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; min-width: 6px; background: var(--accent-color); border-radius: 50%; margin-top: 0.4rem; }
@@ -355,8 +355,8 @@
             
             /* Fix Uneven Pricing Display */
             .pricing-card { padding: 2.5rem 1.5rem; }
-            .pricing-card h3 { font-size: 1.8rem; }
-            .price { font-size: 3rem; margin: 1rem 0 2rem; }
+            .pricing-card h3 { font-size: 2.1rem; font-weight: 700; }
+            .price { font-size: 3rem; margin: 1rem 0 2rem; font-weight: 700; font-style: normal; }
             .features-list li { font-size: 0.85rem; }
             
             /* Fix Reviews Clipping */
@@ -411,7 +411,7 @@
                     </svg>
                 </button>
                 <a href="#pricing" class="btn btn-primary transition-link"><span class="btn-text" data-text="BOOK NOW">BOOK NOW</span></a>
-            </div>
+                </div>
         </nav>
     </div>
 
@@ -578,38 +578,36 @@
                 </div>
                 
                 <div class="projects-grid">
-                    <!-- ROW 1 -->
+                    <!-- 2 items per row -->
                     <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/11.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/12.webp" decoding="async" loading="lazy"></div></article>
-                        <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/13d.webp" decoding="async" loading="lazy"></div></article>
                     </div>
-
-                    <!-- ROW 2 -->
                     <div class="project-row">
+                        <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/13d.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/25.webp" decoding="async" loading="lazy"></div></article>
+                    </div>
+                    <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/3.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/34.webp" decoding="async" loading="lazy"></div></article>
                     </div>
-
-                    <!-- ROW 3 -->
                     <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/55.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/56.webp" decoding="async" loading="lazy"></div></article>
-                        <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/71.webp" decoding="async" loading="lazy"></div></article>
                     </div>
-                    
-                    <!-- ROW 4 -->
                     <div class="project-row">
+                        <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/71.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DJI_20260716183832_0037_D.webp" decoding="async" loading="lazy"></div></article>
+                    </div>
+                    <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DJI_20260731154714_0336_D.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DSC02660.webp" decoding="async" loading="lazy"></div></article>
                     </div>
-
-                    <!-- ROW 5 -->
                     <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DSC02751.webp" decoding="async" loading="lazy"></div></article>
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DSC02763.webp" decoding="async" loading="lazy"></div></article>
+                    </div>
+                    <div class="project-row">
                         <article class="project"><div class="img-wrapper"><img src="portfolioshowcase/DSC09680.webp" decoding="async" loading="lazy"></div></article>
                     </div>
                 </div>
@@ -624,50 +622,10 @@
             </div>
             
             <div class="projects-section" style="margin-top:0;">
-                <div class="projects-grid">
-                    <!-- 3 Small Videos Grid Row 1 -->
-                    <div class="project-row">
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
-                    </div>
-                
-                    
-                    <!-- 3 Small Videos Grid Row 3 -->
-                    <div class="project-row">
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1600585154526-990dced4ea0d?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
-                        <article class="project">
-                            <div class="img-wrapper small-video-wrapper">
-                                <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                                <video poster="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none"></video>
-                            </div>
-                        </article>
+                <div style="width: 90%; max-width: 1200px; margin: 2rem auto; aspect-ratio: 16/9; position: relative;">
+                    <div class="img-wrapper small-video-wrapper" style="width: 100%; height: 100%; border-radius: 24px; cursor: pointer;">
+                        <div class="play-overlay"><svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                        <video poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" src="https://cdn.pixabay.com/video/2022/11/25/140428-775192167_large.mp4" playsinline preload="none" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit; transition: transform 0.8s ease;"></video>
                     </div>
                 </div>
             </div>
@@ -685,7 +643,7 @@
                 <div class="pricing-card reveal stagger-1">
                     <h3 class="premium-font">Essentials</h3>
                     <p style="font-size: 0.9rem; color: var(--text-color); opacity: 0.5; margin-top: 0.5rem; font-weight: 300;">The standard listing package.</p>
-                    <div class="price premium-font">$295</div>
+                    <div class="price">$295</div>
                     <ul class="features-list">
                         <li>50 Pictures</li>
                         <li>Aerial Drone Coverage</li>
@@ -701,7 +659,7 @@
                     <div style="position: absolute; top: 0; right: 2rem; background: var(--accent-color); color: #252022; font-size: 0.65rem; padding: 0.5rem 1rem; font-weight: 700; letter-spacing: 1px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10;">MOST BOOKED</div>
                     <h3 class="premium-font">Signature</h3>
                     <p style="font-size: 0.9rem; color: var(--text-color); opacity: 0.5; margin-top: 0.5rem; font-weight: 300;">For listings that deserve a premiere.</p>
-                    <div class="price premium-font">$545</div>
+                    <div class="price">$545</div>
                     <ul class="features-list">
                         <li>50 Pictures</li>
                         <li>Aerial Drone Coverage</li>
@@ -722,7 +680,7 @@
                 <div class="pricing-card reveal stagger-3">
                     <h3 class="premium-font">Elite</h3>
                     <p style="font-size: 0.9rem; color: var(--text-color); opacity: 0.5; margin-top: 0.5rem; font-weight: 300;">The absolute elite visual spread.</p>
-                    <div class="price premium-font">$895</div>
+                    <div class="price">$895</div>
                     <ul class="features-list">
                         <li>50 Pictures</li>
                         <li>Aerial Drone Coverage</li>
@@ -1021,8 +979,7 @@
                         row: row,
                         absoluteTop: 0, // Caches absolute position to prevent layout thrashing
                         cardSetters: cards.map(card => ({
-                            setWidth: gsap.quickSetter(card, "width", "vw"),
-                            setHeight: gsap.quickSetter(card, "height", "vh")
+                            setWidth: gsap.quickSetter(card, "width", "vw")
                         })),
                         imageSetters: mediaItems.map(item => gsap.quickSetter(item, "scale"))
                     };
@@ -1051,11 +1008,8 @@
 
                     // Dynamically set widths based on Mobile vs Desktop to prevent 100vw overflow wrapping
                     const isMobile = window.innerWidth <= 768;
-                    // Fix applied here: Constrain max mobile width so 4 items + gaps fit under 100vw
-                    const maxW = isMobile ? 22.5 : 31; 
-                    const minW = isMobile ? 18 : 14; 
-                    const maxH = isMobile ? 20 : 65; 
-                    const minH = isMobile ? 10 : 18;
+                    const maxW = isMobile ? 46 : 42; 
+                    const minW = isMobile ? 38 : 32; 
 
                     for (let i = 0; i < rowData.length; i++) {
                         const item = rowData[i];
@@ -1071,12 +1025,10 @@
                             : 1 - Math.pow(-2 * progress + 2, 2) / 2;
                         
                         const currentWidth = minW + (easeProgress * (maxW - minW));
-                        const currentHeight = minH + (easeProgress * (maxH - minH));
                         const currentScale = 1.15 - (easeProgress * 0.15);
 
                         for (let j = 0; j < item.cardSetters.length; j++) {
                             item.cardSetters[j].setWidth(currentWidth);
-                            item.cardSetters[j].setHeight(currentHeight);
                         }
                         
                         for (let j = 0; j < item.imageSetters.length; j++) {
@@ -1095,6 +1047,7 @@
             const gridVideos = document.querySelectorAll('.small-video-wrapper');
             gridVideos.forEach(wrapper => {
                 const video = wrapper.querySelector('video');
+                if(!video) return; // safety check
                 wrapper.addEventListener('click', () => {
                     if (video.paused) {
                         video.play();
